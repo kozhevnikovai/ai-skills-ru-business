@@ -1,11 +1,12 @@
 name: release
+# Публикуете релиз в интерфейсе GitHub → workflow проверяет навыки и прикладывает ZIP каждого навыка
 on:
-  push:
-    tags: ["v*"]
+  release:
+    types: [published]
 permissions:
   contents: write
 jobs:
-  release:
+  assets:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,4 +15,3 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           files: dist/*.zip
-          body_path: CHANGELOG.md

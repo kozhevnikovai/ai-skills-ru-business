@@ -1,0 +1,15 @@
+name: Навык работает плохо / Bug
+description: Ответ неверный, нарушает правила или игнорирует инструкцию
+labels: ["bug"]
+body:
+  - type: input
+    attributes: {label: Навык, placeholder: review-reply}
+    validations: {required: true}
+  - type: input
+    attributes: {label: Агент и модель, placeholder: Claude Code / Sonnet}
+  - type: textarea
+    attributes: {label: Запрос}
+    validations: {required: true}
+  - type: textarea
+    attributes: {label: Что не так в ответе}
+    validations: {required: true}

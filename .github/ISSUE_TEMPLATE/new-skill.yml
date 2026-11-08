@@ -1,0 +1,16 @@
+name: Идея навыка / Skill idea
+description: Предложите задачу, которую стоит автоматизировать
+labels: ["idea"]
+body:
+  - type: textarea
+    attributes:
+      label: Какую задачу решает навык?
+      description: Кто его использует и что сейчас делает вручную
+    validations: {required: true}
+  - type: textarea
+    attributes:
+      label: Пример запроса и ожидаемого результата
+  - type: input
+    attributes:
+      label: Площадка или сервис (если есть)
+      placeholder: Avito, 1С, Яндекс Директ…

@@ -1,13 +1,13 @@
-<p align="center"><img src="docs/img/cover.png" alt="ai-skills-ru-business — AI skills for Russian business" width="100%"></p>
+<p align="center"><img src="docs/img/cover.png" alt="Biznes-navyki — AI skills for Russian business" width="100%"></p>
 
 <p align="center">
-<a href="https://github.com/kozhevnikovai/ai-skills-ru-business/releases"><img src="https://img.shields.io/github/v/release/kozhevnikovai/ai-skills-ru-business?color=161616" alt="Release"></a>
-<a href="https://github.com/kozhevnikovai/ai-skills-ru-business/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/kozhevnikovai/ai-skills-ru-business/validate.yml?label=validate&color=161616" alt="Validate"></a>
+<a href="https://github.com/kozhevnikovai/biznes-navyki/releases"><img src="https://img.shields.io/github/v/release/kozhevnikovai/biznes-navyki?color=161616" alt="Release"></a>
+<a href="https://github.com/kozhevnikovai/biznes-navyki/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/kozhevnikovai/biznes-navyki/validate.yml?label=validate&color=161616" alt="Validate"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-161616" alt="MIT"></a>
 <a href="README.md"><img src="https://img.shields.io/badge/lang-Русский-FF5A1F" alt="Русский"></a>
 </p>
 
-# AI skills for business in Russia
+# Biznes-navyki — AI skills for business in Russia
 
 **No. 001** · Ready-made Agent Skills for Claude, Codex and other AI agents that handle the everyday work of Russian-speaking businesses: sales proposals, replies to reviews, Ozon and Wildberries product cards, hh.ru job postings, sales call scripts and SOPs.
 
@@ -38,10 +38,10 @@ The skills work in Russian: instructions, triggers and outputs are in Russian, b
 **Claude Code:**
 
 ```bash
-git clone https://github.com/kozhevnikovai/ai-skills-ru-business.git && bash ai-skills-ru-business/scripts/install.sh
+git clone https://github.com/kozhevnikovai/biznes-navyki.git && bash biznes-navyki/scripts/install.sh
 ```
 
-**Claude apps** — download a skill ZIP from [Releases](https://github.com/kozhevnikovai/ai-skills-ru-business/releases) and upload it in the Skills section of Claude settings.
+**Claude apps** — download a skill ZIP from [Releases](https://github.com/kozhevnikovai/biznes-navyki/releases) and upload it in the Skills section of Claude settings.
 
 **Other agents** — the skills follow the open Agent Skills format (a folder with `SKILL.md`); copy the folders from `skills/` into your agent's skills directory.
 

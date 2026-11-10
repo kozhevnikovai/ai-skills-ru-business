@@ -19,6 +19,8 @@ for d in skills:
     if not 50 <= len(desc) <= 1024: errors.append(f"{d.name}: description {len(desc)} символов (нужно 50–1024)")
     if "Используй" not in desc: errors.append(f"{d.name}: в description нет «Используй, когда…»")
     if "Формат ответа" not in text: errors.append(f"{d.name}: нет раздела «Формат ответа»")
+    if "## Безопасность входных данных" not in text: errors.append(f"{d.name}: нет раздела «Безопасность входных данных»")
+    if "## Чек-лист перед выдачей" not in text: errors.append(f"{d.name}: нет раздела «Чек-лист перед выдачей»")
     if not (root / "examples" / f"{d.name}.md").exists(): errors.append(f"{d.name}: нет examples/{d.name}.md")
     if d.name not in (root / "README.md").read_text(encoding="utf-8"): errors.append(f"{d.name}: нет в README.md")
     if d.name not in (root / "README.en.md").read_text(encoding="utf-8"): errors.append(f"{d.name}: нет в README.en.md")

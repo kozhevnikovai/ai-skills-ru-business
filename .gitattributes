@@ -1,0 +1,5 @@
+# Язык репозитория на GitHub — по навыкам (Markdown), а не по служебным скриптам
+scripts/** linguist-vendored
+evals/** linguist-vendored
+skills/**/*.md linguist-detectable
+examples/*.md linguist-detectable

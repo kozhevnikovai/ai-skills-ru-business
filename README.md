@@ -1,13 +1,13 @@
-<p align="center"><img src="docs/img/cover.png" alt="ai-skills-ru-business — ИИ-навыки для бизнеса в России" width="100%"></p>
+<p align="center"><img src="docs/img/cover.png" alt="Бизнес-навыки — ИИ-навыки для бизнеса в России" width="100%"></p>
 
 <p align="center">
-<a href="https://github.com/kozhevnikovai/ai-skills-ru-business/releases"><img src="https://img.shields.io/github/v/release/kozhevnikovai/ai-skills-ru-business?color=161616&label=версия" alt="Версия"></a>
-<a href="https://github.com/kozhevnikovai/ai-skills-ru-business/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/kozhevnikovai/ai-skills-ru-business/validate.yml?label=проверка&color=161616" alt="Проверка"></a>
+<a href="https://github.com/kozhevnikovai/biznes-navyki/releases"><img src="https://img.shields.io/github/v/release/kozhevnikovai/biznes-navyki?color=161616&label=версия" alt="Версия"></a>
+<a href="https://github.com/kozhevnikovai/biznes-navyki/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/kozhevnikovai/biznes-navyki/validate.yml?label=проверка&color=161616" alt="Проверка"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/лицензия-MIT-161616" alt="MIT"></a>
 <a href="README.en.md"><img src="https://img.shields.io/badge/lang-English-FF5A1F" alt="English"></a>
 </p>
 
-# ИИ-навыки для бизнеса в России
+# Бизнес-навыки — ИИ-навыки для бизнеса в России
 
 **№ 001** · Готовые навыки (Agent Skills) для Claude, Codex и других ИИ-агентов. Делают ежедневную работу российского бизнеса: коммерческие предложения, ответы на отзывы, карточки для Ozon и WB, вакансии для hh.ru, скрипты продаж, регламенты.
 
@@ -50,12 +50,12 @@
 **Claude Code** — одной командой:
 
 ```bash
-git clone https://github.com/kozhevnikovai/ai-skills-ru-business.git && bash ai-skills-ru-business/scripts/install.sh
+git clone https://github.com/kozhevnikovai/biznes-navyki.git && bash biznes-navyki/scripts/install.sh
 ```
 
 Навыки окажутся в `~/.claude/skills/`. Другая папка: `bash scripts/install.sh /путь/к/skills`.
 
-**Claude (веб, десктоп, мобильное приложение)** — скачайте ZIP нужного навыка в [Releases](https://github.com/kozhevnikovai/ai-skills-ru-business/releases) и загрузите его в разделе навыков (Skills) в настройках Claude.
+**Claude (веб, десктоп, мобильное приложение)** — скачайте ZIP нужного навыка в [Releases](https://github.com/kozhevnikovai/biznes-navyki/releases) и загрузите его в разделе навыков (Skills) в настройках Claude.
 
 **Другие агенты** — навыки сделаны по открытому стандарту Agent Skills (папка с `SKILL.md`). Скопируйте папки из `skills/` в каталог навыков вашего агента. Если формат не поддерживается — вставьте текст `SKILL.md` в начало чата как инструкцию.
 
@@ -76,7 +76,7 @@ npx promptfoo@latest eval -c evals/promptfooconfig.yaml
 
 ## Участие
 
-Нужен навык под вашу задачу? Опишите её в [Issues](https://github.com/kozhevnikovai/ai-skills-ru-business/issues/new/choose) или пришлите PR — см. [CONTRIBUTING.md](CONTRIBUTING.md). История версий — [CHANGELOG.md](CHANGELOG.md).
+Нужен навык под вашу задачу? Опишите её в [Issues](https://github.com/kozhevnikovai/biznes-navyki/issues/new/choose) или пришлите PR — см. [CONTRIBUTING.md](CONTRIBUTING.md). История версий — [CHANGELOG.md](CHANGELOG.md).
 
 Если навыки сэкономили вам время — поставьте звезду репозиторию, так их найдут другие.
 
@@ -88,13 +88,15 @@ npx promptfoo@latest eval -c evals/promptfooconfig.yaml
 - **Навыки под компанию** — тон бренда, прайс, кейсы уже внутри — *скоро*
 - **Обучение команды** — как встроить навыки в работу отдела — *скоро*
 
-Нужно что-то из этого? [Оставьте заявку на ранний доступ](https://github.com/kozhevnikovai/ai-skills-ru-business/issues/new?template=early-access.yml) — заявки влияют на порядок разработки.
+Цена — по запросу, зависит от отрасли и объёма. Тем, кто оставит заявку на ранний доступ, — скидка 50 % на первый год.
+
+Нужно что-то из этого? [Оставьте заявку на ранний доступ](https://github.com/kozhevnikovai/biznes-navyki/issues/new?template=early-access.yml) — заявки влияют на порядок разработки.
 
 ## Другие инструменты kozhevnikovai
 
 - [Протоколист](https://github.com/kozhevnikovai/protokolist) — запись встречи → протокол, локально
 - [Тендерный помощник](https://github.com/kozhevnikovai/tender-pomoshnik) — разбор госзакупок 44-ФЗ и 223-ФЗ с цитатами
-- [site-audit-ru](https://github.com/kozhevnikovai/site-audit-ru) — аудит сайта и конкурентов, 152-ФЗ
+- [Аудитор сайтов](https://github.com/kozhevnikovai/auditor-saitov) — аудит сайта и конкурентов, 152-ФЗ
 
 Об уязвимостях — приватно, см. [SECURITY.md](SECURITY.md).
 

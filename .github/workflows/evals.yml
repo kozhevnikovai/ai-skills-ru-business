@@ -42,6 +42,17 @@ jobs:
           PROMPTFOO_DISABLE_TELEMETRY: "1"
           PROMPTFOO_DISABLE_UPDATE: "1"
         run: npx --yes promptfoo@0 eval -c evals/local.yaml --max-concurrency 1 --no-cache -o evals-result.json -o evals-result.html
+      - name: Итог
+        if: always()
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          d = json.load(open("evals-result.json"))["results"]
+          print(f"### Навыки на Qwen3 4B: {d['stats']['successes']} из {len(d['results'])}\n")
+          for r in d["results"]:
+              bad = [c.get("reason", "") for c in (r.get("gradingResult") or {}).get("componentResults", []) if not c.get("pass")]
+              print(f"- {'✅' if r.get('success') else '❌'} {r['testCase']['description']}" + (f" — {'; '.join(bad)}" if bad else ""))
+          PY
       - if: always()
         uses: actions/upload-artifact@v4
         with:

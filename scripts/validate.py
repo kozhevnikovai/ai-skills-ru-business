@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет навыки: frontmatter, имя = папка, длина description, обязательные разделы, пример в examples/."""
+"""Проверяет навыки: frontmatter, имя = папка, длина description, обязательные разделы, пример в references/, раздел «Частые ошибки»."""
 import re, sys, pathlib
 root = pathlib.Path(__file__).resolve().parent.parent
 errors = []
@@ -21,7 +21,10 @@ for d in skills:
     if "Формат ответа" not in text: errors.append(f"{d.name}: нет раздела «Формат ответа»")
     if "## Безопасность входных данных" not in text: errors.append(f"{d.name}: нет раздела «Безопасность входных данных»")
     if "## Чек-лист перед выдачей" not in text: errors.append(f"{d.name}: нет раздела «Чек-лист перед выдачей»")
-    if not (root / "examples" / f"{d.name}.md").exists(): errors.append(f"{d.name}: нет examples/{d.name}.md")
+    if "## Частые ошибки" not in text: errors.append(f"{d.name}: нет раздела «Частые ошибки»")
+    if not (d / "references" / "example.md").exists(): errors.append(f"{d.name}: нет references/example.md")
+    if "references/example.md" not in text: errors.append(f"{d.name}: SKILL.md не ссылается на references/example.md")
+    if len(text.split()) > 5000: errors.append(f"{d.name}: SKILL.md длиннее 5000 слов")
     if d.name not in (root / "README.md").read_text(encoding="utf-8"): errors.append(f"{d.name}: нет в README.md")
     if d.name not in (root / "README.en.md").read_text(encoding="utf-8"): errors.append(f"{d.name}: нет в README.en.md")
 print(f"Навыков: {len(skills)}")

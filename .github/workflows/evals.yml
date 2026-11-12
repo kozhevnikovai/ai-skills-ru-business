@@ -24,7 +24,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/models
-          key: qwen3-4b-2507-q4km
+          key: model-${{ env.MODEL_SHA }}
       - name: Модель Qwen3 4B
         run: |
           mkdir -p ~/models

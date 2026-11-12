@@ -66,11 +66,11 @@ git clone https://github.com/kozhevnikovai/biznes-navyki.git && bash biznes-navy
 ## Качество
 
 - `scripts/validate.py` — проверка структуры каждого навыка, запускается в CI на каждый коммит.
-- `evals/` — 30 автотестов на [promptfoo](https://www.promptfoo.dev/): правило «не выдумывать», защита персональных данных, 38-ФЗ, запрет дискриминации в вакансиях, посторонние инструкции во входных данных для каждого навыка. В GitHub Actions (workflow `evals`) работают без ключа API — на моделях GitHub Models.
+- `evals/` — 30 автотестов на [promptfoo](https://www.promptfoo.dev/): правило «не выдумывать», защита персональных данных, 38-ФЗ, запрет дискриминации в вакансиях, посторонние инструкции во входных данных для каждого навыка. Без ключа API workflow `evals` в GitHub Actions прогоняет те же задачи на локальной модели Qwen3 4B и проверяет правила, которые не требуют ИИ-судьи; полная оценка по критериям — на Claude.
 - В каждом навыке — разделы «Частые ошибки» и пример результата в `references/example.md`.
 
 ```bash
-export GITHUB_TOKEN=...   # токен с правом models:read, или поменяйте provider в evals/promptfooconfig.yaml
+export ANTHROPIC_API_KEY=...
 npx promptfoo@latest eval -c evals/promptfooconfig.yaml
 ```
 

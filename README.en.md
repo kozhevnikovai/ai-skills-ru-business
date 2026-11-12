@@ -48,7 +48,7 @@ git clone https://github.com/kozhevnikovai/biznes-navyki.git && bash biznes-navy
 ## Quality
 
 - `scripts/validate.py` checks every skill's structure in CI.
-- `evals/` — 20 [promptfoo](https://www.promptfoo.dev/) test cases: `npx promptfoo@latest eval -c evals/promptfooconfig.yaml` (in GitHub Actions they run on GitHub Models with the built-in `GITHUB_TOKEN`, no API key needed).
+- `evals/` — 20 [promptfoo](https://www.promptfoo.dev/) test cases: `npx promptfoo@latest eval -c evals/promptfooconfig.yaml` (needs `ANTHROPIC_API_KEY`; without a key, the `evals` workflow runs the same tasks on a local Qwen3 4B model with rule-based checks).
 
 References to laws are guidance, **not legal advice**. Always review the output before sending it to a client.
 

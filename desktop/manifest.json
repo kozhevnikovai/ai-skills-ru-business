@@ -1,0 +1,52 @@
+{
+  "manifest_version": "0.2",
+  "name": "kozhevnikovai",
+  "display_name": "Инструменты kozhevnikovai",
+  "version": "1.2.0",
+  "description": "Одна установка для всех инструментов kozhevnikovai: Аудитор сайтов, Протоколист, Тендерный помощник и 10 бизнес-навыков.",
+  "long_description": "Отметьте нужные продукты в настройках — расширение само скачает их из официальных релизов GitHub, проверит контрольную сумму SHA-256, установит и будет обновлять. Аудитор сайтов проверяет сайты и конкурентов, Протоколист превращает записи встреч в протоколы, Тендерный помощник разбирает госзакупки 44-ФЗ и 223-ФЗ. Бизнес-навыки (КП, ответы на отзывы, вакансии, регламенты, скрипты звонков и другие) — готовые команды в меню «+». Всё работает на вашем компьютере.",
+  "author": { "name": "Egor Kozhevnikov", "url": "https://github.com/kozhevnikovai" },
+  "repository": { "type": "git", "url": "https://github.com/kozhevnikovai/biznes-navyki" },
+  "homepage": "https://github.com/kozhevnikovai/biznes-navyki/tree/main/desktop",
+  "documentation": "https://github.com/kozhevnikovai/biznes-navyki/tree/main/desktop#readme",
+  "support": "https://github.com/kozhevnikovai/biznes-navyki/issues",
+  "icon": "icon.png",
+  "license": "MIT",
+  "keywords": ["russian", "business", "seo", "meetings", "tenders", "skills"],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.mjs"],
+      "env": {
+        "KZ_AUDITOR": "${user_config.auditor}",
+        "KZ_PROTOKOLIST": "${user_config.protokolist}",
+        "KZ_TENDER": "${user_config.tender}",
+        "KZ_AUTO_UPDATE": "${user_config.auto_update}",
+        "KZ_CHROME_PATH": "${user_config.chrome_path}",
+        "KZ_PROTOKOLIST_OUT": "${user_config.protokolist_out}",
+        "KZ_TENDER_OUT": "${user_config.tender_out}"
+      }
+    }
+  },
+  "tools": [
+    { "name": "kozhevnikovai_status", "description": "Какие инструменты установлены, версии и ошибки" },
+    { "name": "kozhevnikovai_install", "description": "Установить или обновить продукт сейчас" },
+    { "name": "audit_sites", "description": "Аудитор сайтов: аудит 1–5 сайтов и конкурентов" },
+    { "name": "make_protocol", "description": "Протоколист: протокол встречи из записи" },
+    { "name": "analyze_tender", "description": "Тендерный помощник: разбор закупки по номеру или файлам" }
+  ],
+  "tools_generated": true,
+  "prompts_generated": true,
+  "user_config": {
+    "auditor": { "type": "boolean", "title": "Аудитор сайтов", "description": "SEO, конверсия, стиль, технологии и законы РФ; сравнение с конкурентами", "default": true, "required": false },
+    "protokolist": { "type": "boolean", "title": "Протоколист (Windows, macOS)", "description": "Запись встречи → протокол с решениями и задачами. Модели распознавания и ИИ скачиваются при первом использовании (~3–10 ГБ)", "default": true, "required": false },
+    "tender": { "type": "boolean", "title": "Тендерный помощник", "description": "Разбор закупок 44-ФЗ и 223-ФЗ с цитатами, расчёты, сроки, черновики писем", "default": true, "required": false },
+    "auto_update": { "type": "boolean", "title": "Обновлять автоматически", "description": "Проверять новые версии при запуске Claude", "default": true, "required": false },
+    "chrome_path": { "type": "string", "title": "Путь к браузеру для Аудитора (необязательно)", "description": "Оставьте пустым — найдём Chrome, Edge или Яндекс Браузер сами", "default": "", "required": false },
+    "protokolist_out": { "type": "directory", "title": "Папка для протоколов (необязательно)", "description": "Оставьте пустой — Документы/Протоколист", "default": "", "required": false },
+    "tender_out": { "type": "directory", "title": "Папка для отчётов по закупкам (необязательно)", "description": "Оставьте пустой — Документы/Тендерный помощник", "default": "", "required": false }
+  },
+  "compatibility": { "platforms": ["win32", "darwin", "linux"], "runtimes": { "node": ">=20.0.0" } }
+}

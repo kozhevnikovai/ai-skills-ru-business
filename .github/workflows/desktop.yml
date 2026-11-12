@@ -1,0 +1,24 @@
+name: desktop
+# Общий пакет для Claude Desktop: тесты загрузчика и сборка .mcpb на трёх ОС
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test desktop/test/desktop.test.mjs
+      - run: node scripts/build-desktop.mjs
+      - uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: kozhevnikovai-mcpb
+          path: dist/kozhevnikovai.mcpb

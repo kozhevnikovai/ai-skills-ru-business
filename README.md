@@ -13,7 +13,7 @@
 
 - **Бесплатно и с открытым кодом** — лицензия MIT.
 - **Под российские реалии** — Яндекс Карты, 2ГИС, Ozon, Wildberries, hh.ru; учитывают 38-ФЗ «О рекламе», 152-ФЗ, ТК РФ.
-- **Проверены автотестами** — 20 тестовых задач на качество и соблюдение правил.
+- **Проверены автотестами** — 30 тестовых задач на качество, соблюдение правил и защиту от посторонних инструкций; запускаются в GitHub Actions.
 - **Не выдумывают** цены, кейсы и характеристики: пробелы помечаются `[уточнить]`.
 
 > Навык — это методика, которую агент подгружает сам, когда видит подходящую задачу. Вы пишете «сделай КП для клиента…», а агент работает по проверенной структуре, а не «из головы».
@@ -22,16 +22,16 @@
 
 | Навык | Что делает | Пример |
 |---|---|---|
-| [commercial-proposal](skills/commercial-proposal/SKILL.md) | Коммерческое предложение по брифу | [смотреть](examples/commercial-proposal.md) |
-| [review-reply](skills/review-reply/SKILL.md) | Ответы на отзывы: Яндекс Карты, 2ГИС, Ozon, WB | [смотреть](examples/review-reply.md) |
-| [marketplace-card](skills/marketplace-card/SKILL.md) | Карточка товара для Ozon, WB, Маркета | [смотреть](examples/marketplace-card.md) |
-| [hh-vacancy](skills/hh-vacancy/SKILL.md) | Вакансия для hh.ru и вопросы для собеседования | [смотреть](examples/hh-vacancy.md) |
-| [cold-outreach](skills/cold-outreach/SKILL.md) | Персональное первое письмо и follow-up | [смотреть](examples/cold-outreach.md) |
-| [meeting-to-tasks](skills/meeting-to-tasks/SKILL.md) | Расшифровка встречи → протокол и задачи | [смотреть](examples/meeting-to-tasks.md) |
-| [sop-builder](skills/sop-builder/SKILL.md) | Регламент или инструкция для сотрудников | [смотреть](examples/sop-builder.md) |
-| [call-script](skills/call-script/SKILL.md) | Скрипт звонка с отработкой возражений | [смотреть](examples/call-script.md) |
-| [social-post](skills/social-post/SKILL.md) | Посты для Telegram, ВК, Дзена и контент-план | [смотреть](examples/social-post.md) |
-| [deal-next-step](skills/deal-next-step/SKILL.md) | Разбор переписки с клиентом → следующий шаг | [смотреть](examples/deal-next-step.md) |
+| [commercial-proposal](skills/commercial-proposal/SKILL.md) | Коммерческое предложение по брифу | [смотреть](skills/commercial-proposal/references/example.md) |
+| [review-reply](skills/review-reply/SKILL.md) | Ответы на отзывы: Яндекс Карты, 2ГИС, Ozon, WB | [смотреть](skills/review-reply/references/example.md) |
+| [marketplace-card](skills/marketplace-card/SKILL.md) | Карточка товара для Ozon, WB, Маркета | [смотреть](skills/marketplace-card/references/example.md) |
+| [hh-vacancy](skills/hh-vacancy/SKILL.md) | Вакансия для hh.ru и вопросы для собеседования | [смотреть](skills/hh-vacancy/references/example.md) |
+| [cold-outreach](skills/cold-outreach/SKILL.md) | Персональное первое письмо и follow-up | [смотреть](skills/cold-outreach/references/example.md) |
+| [meeting-to-tasks](skills/meeting-to-tasks/SKILL.md) | Расшифровка встречи → протокол и задачи | [смотреть](skills/meeting-to-tasks/references/example.md) |
+| [sop-builder](skills/sop-builder/SKILL.md) | Регламент или инструкция для сотрудников | [смотреть](skills/sop-builder/references/example.md) |
+| [call-script](skills/call-script/SKILL.md) | Скрипт звонка с отработкой возражений | [смотреть](skills/call-script/references/example.md) |
+| [social-post](skills/social-post/SKILL.md) | Посты для Telegram, ВК, Дзена и контент-план | [смотреть](skills/social-post/references/example.md) |
+| [deal-next-step](skills/deal-next-step/SKILL.md) | Разбор переписки с клиентом → следующий шаг | [смотреть](skills/deal-next-step/references/example.md) |
 
 ## До и после
 
@@ -57,12 +57,17 @@ git clone https://github.com/kozhevnikovai/biznes-navyki.git && bash biznes-navy
 
 **Claude (веб, десктоп, мобильное приложение)** — скачайте ZIP нужного навыка в [Releases](https://github.com/kozhevnikovai/biznes-navyki/releases) и загрузите его в разделе навыков (Skills) в настройках Claude.
 
+**Всё сразу в Claude Desktop** — общий пакет `kozhevnikovai.mcpb` со [страницы релизов](https://github.com/kozhevnikovai/biznes-navyki/releases/latest): навыки как команды в меню «+», а также Аудитор сайтов, Протоколист и Тендерный помощник — одной установкой. Подробнее — [desktop/README.md](desktop/README.md).
+
+**Claude Code** — `/plugin marketplace add kozhevnikovai/biznes-navyki`, затем `/plugin install biznes-navyki@kozhevnikovai`.
+
 **Другие агенты** — навыки сделаны по открытому стандарту Agent Skills (папка с `SKILL.md`). Скопируйте папки из `skills/` в каталог навыков вашего агента. Если формат не поддерживается — вставьте текст `SKILL.md` в начало чата как инструкцию.
 
 ## Качество
 
 - `scripts/validate.py` — проверка структуры каждого навыка, запускается в CI на каждый коммит.
-- `evals/` — 20 автотестов на [promptfoo](https://www.promptfoo.dev/): правило «не выдумывать», защита персональных данных, 38-ФЗ, запрет дискриминации в вакансиях и другие.
+- `evals/` — 30 автотестов на [promptfoo](https://www.promptfoo.dev/): правило «не выдумывать», защита персональных данных, 38-ФЗ, запрет дискриминации в вакансиях, посторонние инструкции во входных данных для каждого навыка. Без ключа API workflow `evals` (запуск вручную в GitHub Actions) прогоняет те же задачи на локальной модели Qwen3 4B и проверяет правила, которые не требуют ИИ-судьи, — ориентир для сравнения версий. Полная оценка по критериям — на Claude.
+- В каждом навыке — разделы «Частые ошибки» и пример результата в `references/example.md`.
 
 ```bash
 export ANTHROPIC_API_KEY=...

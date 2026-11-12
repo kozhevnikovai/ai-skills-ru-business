@@ -13,7 +13,7 @@
 
 - **Free and open source** — MIT license.
 - **Built for the Russian market** — Yandex Maps, 2GIS, Ozon, Wildberries, hh.ru; respects Russian advertising (38-FZ), personal data (152-FZ) and labor law.
-- **Tested** — 20 eval cases for quality and rule compliance.
+- **Tested** — 30 eval cases for quality, rule compliance and prompt-injection resistance, run in GitHub Actions.
 - **No made-up facts** — prices, case studies and specs are never invented; gaps are marked `[уточнить]` ("to clarify").
 
 The skills work in Russian: instructions, triggers and outputs are in Russian, because that is where they are used.
@@ -22,16 +22,16 @@ The skills work in Russian: instructions, triggers and outputs are in Russian, b
 
 | Skill | What it does | Example |
 |---|---|---|
-| [commercial-proposal](skills/commercial-proposal/SKILL.md) | Sales proposal from a short brief | [view](examples/commercial-proposal.md) |
-| [review-reply](skills/review-reply/SKILL.md) | Replies to reviews on Yandex Maps, 2GIS, Ozon, WB | [view](examples/review-reply.md) |
-| [marketplace-card](skills/marketplace-card/SKILL.md) | Product card for Ozon, WB, Yandex Market | [view](examples/marketplace-card.md) |
-| [hh-vacancy](skills/hh-vacancy/SKILL.md) | Job posting for hh.ru plus interview questions | [view](examples/hh-vacancy.md) |
-| [cold-outreach](skills/cold-outreach/SKILL.md) | Personalized first message and follow-ups | [view](examples/cold-outreach.md) |
-| [meeting-to-tasks](skills/meeting-to-tasks/SKILL.md) | Meeting transcript → minutes and tasks | [view](examples/meeting-to-tasks.md) |
-| [sop-builder](skills/sop-builder/SKILL.md) | Standard operating procedure for staff | [view](examples/sop-builder.md) |
-| [call-script](skills/call-script/SKILL.md) | Call script with objection handling | [view](examples/call-script.md) |
-| [social-post](skills/social-post/SKILL.md) | Posts for Telegram, VK, Dzen and a content plan | [view](examples/social-post.md) |
-| [deal-next-step](skills/deal-next-step/SKILL.md) | Client chat analysis → next best step | [view](examples/deal-next-step.md) |
+| [commercial-proposal](skills/commercial-proposal/SKILL.md) | Sales proposal from a short brief | [view](skills/commercial-proposal/references/example.md) |
+| [review-reply](skills/review-reply/SKILL.md) | Replies to reviews on Yandex Maps, 2GIS, Ozon, WB | [view](skills/review-reply/references/example.md) |
+| [marketplace-card](skills/marketplace-card/SKILL.md) | Product card for Ozon, WB, Yandex Market | [view](skills/marketplace-card/references/example.md) |
+| [hh-vacancy](skills/hh-vacancy/SKILL.md) | Job posting for hh.ru plus interview questions | [view](skills/hh-vacancy/references/example.md) |
+| [cold-outreach](skills/cold-outreach/SKILL.md) | Personalized first message and follow-ups | [view](skills/cold-outreach/references/example.md) |
+| [meeting-to-tasks](skills/meeting-to-tasks/SKILL.md) | Meeting transcript → minutes and tasks | [view](skills/meeting-to-tasks/references/example.md) |
+| [sop-builder](skills/sop-builder/SKILL.md) | Standard operating procedure for staff | [view](skills/sop-builder/references/example.md) |
+| [call-script](skills/call-script/SKILL.md) | Call script with objection handling | [view](skills/call-script/references/example.md) |
+| [social-post](skills/social-post/SKILL.md) | Posts for Telegram, VK, Dzen and a content plan | [view](skills/social-post/references/example.md) |
+| [deal-next-step](skills/deal-next-step/SKILL.md) | Client chat analysis → next best step | [view](skills/deal-next-step/references/example.md) |
 
 ## Install
 
@@ -48,7 +48,7 @@ git clone https://github.com/kozhevnikovai/biznes-navyki.git && bash biznes-navy
 ## Quality
 
 - `scripts/validate.py` checks every skill's structure in CI.
-- `evals/` — 20 [promptfoo](https://www.promptfoo.dev/) test cases: `npx promptfoo@latest eval -c evals/promptfooconfig.yaml` (needs `ANTHROPIC_API_KEY`).
+- `evals/` — 20 [promptfoo](https://www.promptfoo.dev/) test cases: `npx promptfoo@latest eval -c evals/promptfooconfig.yaml` (needs `ANTHROPIC_API_KEY`; without a key, the `evals` workflow runs the same tasks on a local Qwen3 4B model with rule-based checks).
 
 References to laws are guidance, **not legal advice**. Always review the output before sending it to a client.
 

@@ -1,0 +1,7 @@
+{
+  "name": "kozhevnikovai",
+  "owner": { "name": "Egor Kozhevnikov", "url": "https://github.com/kozhevnikovai" },
+  "plugins": [
+    { "name": "biznes-navyki", "source": "./", "description": "10 навыков для бизнеса в России: КП, ответы на отзывы, карточки маркетплейсов, вакансии, письма, протоколы, регламенты, скрипты звонков, посты, следующий шаг по сделке" }
+  ]
+}

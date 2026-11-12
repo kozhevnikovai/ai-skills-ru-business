@@ -57,6 +57,10 @@ git clone https://github.com/kozhevnikovai/biznes-navyki.git && bash biznes-navy
 
 **Claude (веб, десктоп, мобильное приложение)** — скачайте ZIP нужного навыка в [Releases](https://github.com/kozhevnikovai/biznes-navyki/releases) и загрузите его в разделе навыков (Skills) в настройках Claude.
 
+**Всё сразу в Claude Desktop** — общий пакет `kozhevnikovai.mcpb` со [страницы релизов](https://github.com/kozhevnikovai/biznes-navyki/releases/latest): навыки как команды в меню «+», а также Аудитор сайтов, Протоколист и Тендерный помощник — одной установкой. Подробнее — [desktop/README.md](desktop/README.md).
+
+**Claude Code** — `/plugin marketplace add kozhevnikovai/biznes-navyki`, затем `/plugin install biznes-navyki@kozhevnikovai`.
+
 **Другие агенты** — навыки сделаны по открытому стандарту Agent Skills (папка с `SKILL.md`). Скопируйте папки из `skills/` в каталог навыков вашего агента. Если формат не поддерживается — вставьте текст `SKILL.md` в начало чата как инструкцию.
 
 ## Качество

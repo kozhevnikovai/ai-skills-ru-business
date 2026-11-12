@@ -12,6 +12,12 @@ jobs:
       - uses: actions/checkout@v4
       - run: python scripts/validate.py
       - run: bash scripts/build-zips.sh
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/build-desktop.mjs
       - uses: softprops/action-gh-release@v2
         with:
-          files: dist/*.zip
+          files: |
+            dist/*.zip
+            dist/kozhevnikovai.mcpb

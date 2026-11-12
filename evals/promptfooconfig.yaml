@@ -1,20 +1,16 @@
-# Автотесты качества навыков (promptfoo).
-# В GitHub Actions работают без ключа API: модели GitHub Models, доступ по встроенному GITHUB_TOKEN (workflow evals).
-# Локально: GITHUB_TOKEN с правом models:read или замените provider на любой другой.
+# Автотесты качества навыков (promptfoo) — полный прогон на Claude с оценкой по критериям (llm-rubric).
+# Запуск: ANTHROPIC_API_KEY=... npx promptfoo@latest eval -c evals/promptfooconfig.yaml
+# Без ключа: workflow evals в GitHub Actions гоняет эти же задачи на локальной модели (evals/local.py).
 description: biznes-navyki evals
 prompts:
   - file://prompt.json
 providers:
-  - id: github:openai/gpt-4.1-mini
+  - id: anthropic:messages:claude-sonnet-5-5
     config:
       max_tokens: 3000
-      temperature: 0.2
 defaultTest:
   options:
-    provider:
-      id: github:openai/gpt-4.1-mini
-      config:
-        temperature: 0
+    provider: anthropic:messages:claude-sonnet-5-5
 tests:
   - description: "commercial-proposal #1"
     vars:

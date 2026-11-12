@@ -1,37 +1,49 @@
 name: evals
-# Проверка качества навыков на модели. Без ключа API: GitHub Models по встроенному GITHUB_TOKEN.
+# Проверка навыков без ключа API: те же задачи на локальной модели Qwen3 4B (llama.cpp, CPU).
+# Проверяются правила, которые можно проверить без ИИ-судьи: нет выдуманных и запрещённых фраз, нет
+# персональных данных, посторонние инструкции не выполнены и отмечены. Полная оценка по критериям — на Claude
+# (promptfooconfig.yaml, нужен ANTHROPIC_API_KEY).
 on:
   workflow_dispatch:
   pull_request:
-    paths: ["skills/**", "evals/**"]
+    paths: ["skills/**", "evals/**", ".github/workflows/evals.yml"]
 permissions:
   contents: read
-  models: read
+env:
+  MODEL_URL: https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen3-4B-Instruct-2507-Q4_K_M.gguf
+  MODEL_SHA: 3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597
 jobs:
-  evals:
+  local:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: GitHub Models доступен
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/cache@v4
+        with:
+          path: ~/models
+          key: qwen3-4b-2507-q4km
+      - name: Модель Qwen3 4B
         run: |
-          curl -sS -w "\nHTTP %{http_code}\n" https://models.github.ai/inference/chat/completions \
-            -H "Authorization: Bearer $GITHUB_TOKEN" -H "Content-Type: application/json" -H "Accept: application/vnd.github+json" \
-            -d '{"model":"openai/gpt-4.1-mini","messages":[{"role":"user","content":"Скажи: ок"}],"max_tokens":5}' | tail -c 400
+          mkdir -p ~/models
+          f=~/models/qwen3-4b.gguf
+          [ -f "$f" ] || curl -fsSL --retry 3 -o "$f" "$MODEL_URL"
+          echo "$MODEL_SHA  $f" | sha256sum -c -
+      - name: llama.cpp server
+        run: |
+          docker run -d --name llm -p 8080:8080 -v ~/models:/models ghcr.io/ggml-org/llama.cpp:server \
+            -m /models/qwen3-4b.gguf -c 8192 --host 0.0.0.0 --port 8080 --jinja
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:8080/health && break; sleep 5; done
+      - run: pip install pyyaml && python3 evals/local.py
       - name: promptfoo
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROMPTFOO_DISABLE_TELEMETRY: "1"
           PROMPTFOO_DISABLE_UPDATE: "1"
-        run: |
-          npx --yes promptfoo@0 eval -c evals/promptfooconfig.yaml --max-concurrency 2 --delay 4000 --no-cache -o evals-result.json -o evals-result.html
+        run: npx --yes promptfoo@0 eval -c evals/local.yaml --max-concurrency 1 --no-cache -o evals-result.json -o evals-result.html
       - if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: evals
+          name: evals-local
           path: evals-result.*

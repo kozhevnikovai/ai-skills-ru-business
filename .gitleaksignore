@@ -1,0 +1,2 @@
+# Ложное срабатывание: имя ключа кэша actions/cache (qwen3-4b-2507-q4km), не секрет
+3a47228ecb7aea4ca86bdbab073f421bbc6fda3f:.github/workflows/evals.yml:generic-api-key:27

@@ -5,20 +5,15 @@ description: biznes-navyki evals
 prompts:
   - file://prompt.json
 providers:
-  - id: openai:chat:openai/gpt-4.1-mini
-    label: github-models
+  - id: github:openai/gpt-4.1-mini
     config:
-      apiBaseUrl: https://models.github.ai/inference
-      apiKeyEnvar: GITHUB_TOKEN
       max_tokens: 3000
       temperature: 0.2
 defaultTest:
   options:
     provider:
-      id: openai:chat:openai/gpt-4.1-mini
+      id: github:openai/gpt-4.1-mini
       config:
-        apiBaseUrl: https://models.github.ai/inference
-        apiKeyEnvar: GITHUB_TOKEN
         temperature: 0
 tests:
   - description: "commercial-proposal #1"

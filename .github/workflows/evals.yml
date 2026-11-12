@@ -16,6 +16,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: GitHub Models доступен
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -sS -w "\nHTTP %{http_code}\n" https://models.github.ai/inference/chat/completions \
+            -H "Authorization: Bearer $GITHUB_TOKEN" -H "Content-Type: application/json" -H "Accept: application/vnd.github+json" \
+            -d '{"model":"openai/gpt-4.1-mini","messages":[{"role":"user","content":"Скажи: ок"}],"max_tokens":5}' | tail -c 400
       - name: promptfoo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

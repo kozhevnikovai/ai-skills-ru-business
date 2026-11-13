@@ -1,0 +1,47 @@
+name: media
+# Проверка навыков без ключа API: те же задачи на локальной модели Qwen3 4B (llama.cpp, CPU).
+# Проверяются правила, которые можно проверить без ИИ-судьи: нет выдуманных и запрещённых фраз, нет
+# персональных данных, посторонние инструкции не выполнены и отмечены. Полная оценка по критериям — на Claude
+# (promptfooconfig.yaml, нужен ANTHROPIC_API_KEY).
+# Запуск вручную: маленькая локальная модель хуже Claude держит посторонние инструкции, поэтому результат —
+# ориентир для сравнения версий навыков, а не условие слияния.
+on:
+  workflow_dispatch:
+  push:
+    branches: ['media/**']
+    paths: ['.github/workflows/media.yml', 'scripts/media/**']
+permissions:
+  contents: read
+env:
+  MODEL_URL: https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen3-4B-Instruct-2507-Q4_K_M.gguf
+  MODEL_SHA: 3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597
+jobs:
+  local:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - uses: actions/cache@v6
+        with:
+          path: ~/models
+          key: model-${{ env.MODEL_SHA }}
+      - name: Модель Qwen3 4B
+        run: |
+          mkdir -p ~/models
+          f=~/models/qwen3-4b.gguf
+          [ -f "$f" ] || curl -fsSL --retry 3 -o "$f" "$MODEL_URL"
+          echo "$MODEL_SHA  $f" | sha256sum -c -
+      - name: llama.cpp server
+        run: |
+          docker run -d --name llm -p 8080:8080 -v ~/models:/models ghcr.io/ggml-org/llama.cpp:server \
+            -m /models/qwen3-4b.gguf -c 8192 --host 0.0.0.0 --port 8080 --jinja
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:8080/health && break; sleep 5; done
+      - run: pip install pyyaml && python3 scripts/media/before_after.py
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: media
+          path: media/

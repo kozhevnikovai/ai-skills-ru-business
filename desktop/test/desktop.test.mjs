@@ -148,13 +148,13 @@ test("сравнение версий", () => {
 
 test("ключ CrUX доходит до Аудитора; старая версия в релизе — предупреждение в статусе", async () => {
   const gh = await fakeGithub(`sha256:${sha}`, "v1.2.0");
-  const L = startLoader(`http://127.0.0.1:${gh.address().port}`, tmp(), { KZ_CRUX_KEY: "AIzaTestKey1234567890" });
+  const L = startLoader(`http://127.0.0.1:${gh.address().port}`, tmp(), { KZ_CRUX_KEY: "test-crux" });
   kill.push(() => { L.ch.kill(); gh.close(); });
   await L.call("initialize", { protocolVersion: "2025-06-18", capabilities: {} });
   L.notify("notifications/initialized");
   await L.wait((m) => m.method === "notifications/tools/list_changed");
   const r = await L.call("tools/call", { name: "audit_sites", arguments: {} });
-  assert.match(r.result.content[0].text, /crux=AIzaTestKey1234567890$/);
+  assert.match(r.result.content[0].text, /crux=test-crux$/);
   const st = await L.call("tools/call", { name: "kozhevnikovai_status", arguments: {} });
   assert.match(st.result.content[0].text, /в релизе версия 1\.2\.0, для всех инструментов нужна 1\.3\.0/);
 });

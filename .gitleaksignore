@@ -1,2 +1,4 @@
 # Ложное срабатывание: имя ключа кэша actions/cache (qwen3-4b-2507-q4km), не секрет
 3a47228ecb7aea4ca86bdbab073f421bbc6fda3f:.github/workflows/evals.yml:generic-api-key:27
+# Ложное срабатывание: тестовое значение ключа CrUX в тесте загрузчика, не секрет
+72653b42567f88ea0a9881096ac72508812f3a2f:desktop/test/desktop.test.mjs:generic-api-key:151

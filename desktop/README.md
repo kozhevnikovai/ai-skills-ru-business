@@ -1,6 +1,6 @@
 # Инструменты kozhevnikovai для Claude Desktop
 
-Одна установка вместо нескольких расширений: [Аудитор сайтов](https://github.com/kozhevnikovai/auditor-saitov), [Протоколист](https://github.com/kozhevnikovai/protokolist), [Тендерный помощник](https://github.com/kozhevnikovai/tender-pomoshnik) и 10 [бизнес-навыков](https://github.com/kozhevnikovai/biznes-navyki).
+Одна установка вместо нескольких расширений: [Аудитор сайтов](https://github.com/kozhevnikovai/auditor-saitov), [Протоколист](https://github.com/kozhevnikovai/protokolist), [Тендерный помощник](https://github.com/kozhevnikovai/tender-pomoshnik) и 12 [бизнес-навыков](https://github.com/kozhevnikovai/biznes-navyki).
 
 ## Установка
 
@@ -12,7 +12,8 @@
 
 - Продукты скачиваются только из официальных релизов GitHub kozhevnikovai. Перед установкой проверяется контрольная сумма SHA-256 — повреждённый или подменённый файл не ставится.
 - Продукты хранятся в папке `.kozhevnikovai/products` в вашей домашней папке. Новая версия ставится рядом и заменяет старую только после успешной проверки.
-- Обновления проверяются при запуске Claude (можно выключить в настройках).
+- Обновления проверяются при запуске Claude (можно выключить в настройках). Если установленная версия продукта старше нужной пакету (сейчас 1.3), она обновится и при выключенном автообновлении — иначе части инструментов не будет.
+- Ключ CrUX API в настройках (необязательно) — Аудитор сайтов покажет скорость у реальных посетителей.
 - Бизнес-навыки — команды в меню «+» → «Инструменты kozhevnikovai»: выберите навык и опишите задачу.
 - Спросите Claude «какие инструменты kozhevnikovai установлены?» — он вызовет `kozhevnikovai_status`.
 

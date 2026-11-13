@@ -47,17 +47,17 @@ let b="";process.stdin.setEncoding("utf8");process.stdin.on("data",d=>{b+=d;let 
 const r=x=>process.stdout.write(JSON.stringify({jsonrpc:"2.0",id:m.id,result:x})+"\\n");
 if(m.method==="initialize")r({protocolVersion:"2025-06-18",capabilities:{tools:{}},serverInfo:{name:"fake",version:"1"}});
 else if(m.method==="tools/list")r({tools:[{name:"audit_sites",description:"fake",inputSchema:{type:"object",properties:{}}}]});
-else if(m.method==="tools/call")r({content:[{type:"text",text:"echo:"+JSON.stringify(m.params.arguments)+":"+(process.env.CHROME_PATH||"")}]});}});`;
-const manifest = JSON.stringify({ name: "site-audit-ru", version: "9.9.9", server: { mcp_config: { command: "node", args: ["${__dirname}/fake.mjs"], env: { CHROME_PATH: "${user_config.chrome_path}" } } } });
+else if(m.method==="tools/call")r({content:[{type:"text",text:"echo:"+JSON.stringify(m.params.arguments)+":"+(process.env.CHROME_PATH||"")+(process.env.SITE_AUDIT_CRUX_KEY?":crux="+process.env.SITE_AUDIT_CRUX_KEY:"")}]});}});`;
+const manifest = JSON.stringify({ name: "site-audit-ru", version: "9.9.9", server: { mcp_config: { command: "node", args: ["${__dirname}/fake.mjs"], env: { CHROME_PATH: "${user_config.chrome_path}", SITE_AUDIT_CRUX_KEY: "${user_config.crux_key}" } } } });
 const pkg = makeZip({ "manifest.json": manifest, "fake.mjs": FAKE });
 const sha = createHash("sha256").update(pkg).digest("hex");
 
-function fakeGithub(digest) {
+function fakeGithub(digest, tag = "v9.9.9") {
   const srv = createServer((req, res) => {
     const base = `http://127.0.0.1:${srv.address().port}`;
     if (req.url === "/repos/kozhevnikovai/auditor-saitov/releases/latest") {
       res.writeHead(200, { "content-type": "application/json" });
-      return res.end(JSON.stringify({ tag_name: "v9.9.9", assets: [{ name: "site-audit-ru.mcpb", size: pkg.length, digest, browser_download_url: `${base}/dl` }] }));
+      return res.end(JSON.stringify({ tag_name: tag, assets: [{ name: "site-audit-ru.mcpb", size: pkg.length, digest, browser_download_url: `${base}/dl` }] }));
     }
     if (req.url === "/dl") { res.writeHead(302, { location: "/file" }); return res.end(); }
     if (req.url === "/file") { res.writeHead(200); return res.end(pkg); }
@@ -66,9 +66,9 @@ function fakeGithub(digest) {
   return new Promise((ok) => srv.listen(0, "127.0.0.1", () => ok(srv)));
 }
 
-function startLoader(api, home) {
+function startLoader(api, home, extra = {}) {
   const ch = spawn(process.execPath, [join(here, "../server/index.mjs")], {
-    env: { ...process.env, KZ_GITHUB_API: api, KZ_HOME: home, KZ_TEST_ALLOW_HTTP: "1", KZ_PROTOKOLIST: "false", KZ_TENDER: "false", KZ_CHROME_PATH: "C:/chrome.exe" },
+    env: { ...process.env, KZ_GITHUB_API: api, KZ_HOME: home, KZ_TEST_ALLOW_HTTP: "1", KZ_PROTOKOLIST: "false", KZ_TENDER: "false", KZ_CHROME_PATH: "C:/chrome.exe", ...extra },
     stdio: ["pipe", "pipe", "pipe"],
   });
   const msgs = [];
@@ -107,7 +107,8 @@ test("ставит продукт из релиза, проверяет SHA-256 
   assert.equal(r.result.content[0].text, 'echo:{"urls":["a.ru"]}:C:/chrome.exe');
   assert.equal(JSON.parse(readFileSync(join(home, "auditor/current.json"), "utf8")).version, "9.9.9");
   const prompts = (await L.call("prompts/list", {})).result.prompts;
-  assert.equal(prompts.length, 10);
+  assert.equal(prompts.length, 12);
+  assert.ok(prompts.some((x) => x.name === "debt-reminder") && prompts.some((x) => x.name === "claim-reply"));
   const p = await L.call("prompts/get", { name: "review-reply", arguments: { request: "Отзыв ★1" } });
   const text = p.result.messages[0].content.text;
   assert.match(text, /<user_input>\nОтзыв ★1\n<\/user_input>/);
@@ -135,4 +136,25 @@ test("релиз без контрольной суммы отклоняется
   await L.call("initialize", {});
   const r = await L.call("tools/call", { name: "kozhevnikovai_install", arguments: { product: "auditor" } });
   assert.match(r.result.content[0].text, /нет контрольной суммы/);
+});
+
+import { older } from "../server/products.mjs";
+test("сравнение версий", () => {
+  assert.equal(older("1.2.0", "1.3.0"), true);
+  assert.equal(older("v1.3.0", "1.3.0"), false);
+  assert.equal(older("1.10.0", "1.3.0"), false);
+  assert.equal(older("2.0.0-beta", "1.3.0"), false);
+});
+
+test("ключ CrUX доходит до Аудитора; старая версия в релизе — предупреждение в статусе", async () => {
+  const gh = await fakeGithub(`sha256:${sha}`, "v1.2.0");
+  const L = startLoader(`http://127.0.0.1:${gh.address().port}`, tmp(), { KZ_CRUX_KEY: "test-crux" });
+  kill.push(() => { L.ch.kill(); gh.close(); });
+  await L.call("initialize", { protocolVersion: "2025-06-18", capabilities: {} });
+  L.notify("notifications/initialized");
+  await L.wait((m) => m.method === "notifications/tools/list_changed");
+  const r = await L.call("tools/call", { name: "audit_sites", arguments: {} });
+  assert.match(r.result.content[0].text, /crux=test-crux$/);
+  const st = await L.call("tools/call", { name: "kozhevnikovai_status", arguments: {} });
+  assert.match(st.result.content[0].text, /в релизе версия 1\.2\.0, для всех инструментов нужна 1\.3\.0/);
 });

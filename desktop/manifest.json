@@ -2,8 +2,8 @@
   "manifest_version": "0.2",
   "name": "kozhevnikovai",
   "display_name": "Инструменты kozhevnikovai",
-  "version": "1.2.0",
-  "description": "Одна установка для всех инструментов kozhevnikovai: Аудитор сайтов, Протоколист, Тендерный помощник и 10 бизнес-навыков.",
+  "version": "1.3.0",
+  "description": "Одна установка для всех инструментов kozhevnikovai: Аудитор сайтов, Протоколист, Тендерный помощник и 12 бизнес-навыков.",
   "long_description": "Отметьте нужные продукты в настройках — расширение само скачает их из официальных релизов GitHub, проверит контрольную сумму SHA-256, установит и будет обновлять. Аудитор сайтов проверяет сайты и конкурентов, Протоколист превращает записи встреч в протоколы, Тендерный помощник разбирает госзакупки 44-ФЗ и 223-ФЗ. Бизнес-навыки (КП, ответы на отзывы, вакансии, регламенты, скрипты звонков и другие) — готовые команды в меню «+». Всё работает на вашем компьютере.",
   "author": { "name": "Egor Kozhevnikov", "url": "https://github.com/kozhevnikovai" },
   "repository": { "type": "git", "url": "https://github.com/kozhevnikovai/biznes-navyki" },
@@ -25,6 +25,7 @@
         "KZ_TENDER": "${user_config.tender}",
         "KZ_AUTO_UPDATE": "${user_config.auto_update}",
         "KZ_CHROME_PATH": "${user_config.chrome_path}",
+        "KZ_CRUX_KEY": "${user_config.crux_key}",
         "KZ_PROTOKOLIST_OUT": "${user_config.protokolist_out}",
         "KZ_TENDER_OUT": "${user_config.tender_out}"
       }
@@ -34,8 +35,14 @@
     { "name": "kozhevnikovai_status", "description": "Какие инструменты установлены, версии и ошибки" },
     { "name": "kozhevnikovai_install", "description": "Установить или обновить продукт сейчас" },
     { "name": "audit_sites", "description": "Аудитор сайтов: аудит 1–5 сайтов и конкурентов" },
+    { "name": "field_vitals", "description": "Аудитор сайтов: скорость у реальных посетителей (Chrome UX Report)" },
+    { "name": "export_pdf", "description": "Аудитор сайтов: отчёт в PDF" },
     { "name": "make_protocol", "description": "Протоколист: протокол встречи из записи" },
-    { "name": "analyze_tender", "description": "Тендерный помощник: разбор закупки по номеру или файлам" }
+    { "name": "ask_archive", "description": "Протоколист: вопрос по архиву встреч" },
+    { "name": "list_tasks", "description": "Протоколист: задачи из всех встреч" },
+    { "name": "analyze_tender", "description": "Тендерный помощник: разбор закупки по номеру или файлам" },
+    { "name": "tender_results", "description": "Тендерный помощник: итоги закупки — победитель и снижение цены" },
+    { "name": "tender_changes", "description": "Тендерный помощник: что изменилось с прошлого разбора" }
   ],
   "tools_generated": true,
   "prompts_generated": true,
@@ -45,6 +52,7 @@
     "tender": { "type": "boolean", "title": "Тендерный помощник", "description": "Разбор закупок 44-ФЗ и 223-ФЗ с цитатами, расчёты, сроки, черновики писем", "default": true, "required": false },
     "auto_update": { "type": "boolean", "title": "Обновлять автоматически", "description": "Проверять новые версии при запуске Claude", "default": true, "required": false },
     "chrome_path": { "type": "string", "title": "Путь к браузеру для Аудитора (необязательно)", "description": "Оставьте пустым — найдём Chrome, Edge или Яндекс Браузер сами", "default": "", "required": false },
+    "crux_key": { "type": "string", "title": "Ключ CrUX API для Аудитора (необязательно)", "description": "Скорость у реальных посетителей: бесплатный ключ Google Cloud → Chrome UX Report API", "sensitive": true, "default": "", "required": false },
     "protokolist_out": { "type": "directory", "title": "Папка для протоколов (необязательно)", "description": "Оставьте пустой — Документы/Протоколист", "default": "", "required": false },
     "tender_out": { "type": "directory", "title": "Папка для отчётов по закупкам (необязательно)", "description": "Оставьте пустой — Документы/Тендерный помощник", "default": "", "required": false }
   },

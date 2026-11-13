@@ -13,7 +13,7 @@
 
 - **Free and open source** — MIT license.
 - **Built for the Russian market** — Yandex Maps, 2GIS, Ozon, Wildberries, hh.ru; respects Russian advertising (38-FZ), personal data (152-FZ) and labor law.
-- **Tested** — 30 eval cases for quality, rule compliance and prompt-injection resistance, run in GitHub Actions.
+- **Tested** — 36 eval cases for quality, rule compliance and prompt-injection resistance, run in GitHub Actions.
 - **No made-up facts** — prices, case studies and specs are never invented; gaps are marked `[уточнить]` ("to clarify").
 
 The skills work in Russian: instructions, triggers and outputs are in Russian, because that is where they are used.
@@ -32,6 +32,8 @@ The skills work in Russian: instructions, triggers and outputs are in Russian, b
 | [call-script](skills/call-script/SKILL.md) | Call script with objection handling | [view](skills/call-script/references/example.md) |
 | [social-post](skills/social-post/SKILL.md) | Posts for Telegram, VK, Dzen and a content plan | [view](skills/social-post/references/example.md) |
 | [deal-next-step](skills/deal-next-step/SKILL.md) | Client chat analysis → next best step | [view](skills/deal-next-step/references/example.md) |
+| [claim-reply](skills/claim-reply/SKILL.md) | Reply to a customer claim: consumer law and contract, deadlines, risks | [view](skills/claim-reply/references/example.md) |
+| [debt-reminder](skills/debt-reminder/SKILL.md) | Letters to a debtor: reminder → formal claim with penalty calculation | [view](skills/debt-reminder/references/example.md) |
 
 ## Install
 

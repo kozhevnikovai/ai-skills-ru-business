@@ -6,7 +6,7 @@ import { spawn } from "node:child_process";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { PRODUCTS } from "./products.mjs";
+import { older, PRODUCTS } from "./products.mjs";
 import { cleanup, install, installed, latest } from "./install.mjs";
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -24,7 +24,7 @@ let ready = false;
 const notifyTools = () => ready && send({ jsonrpc: "2.0", method: "notifications/tools/list_changed" });
 
 // ---------- дочерние MCP-серверы продуктов ----------
-const state = Object.fromEntries(PRODUCTS.map((p) => [p.id, { status: "не установлен", error: null, child: null, tools: [], version: null }]));
+const state = Object.fromEntries(PRODUCTS.map((p) => [p.id, { status: "не установлен", error: null, child: null, tools: [], version: null, note: null }]));
 
 function childCommand(p, dir) {
   const m = JSON.parse(readFileSync(join(dir, "manifest.json"), "utf8"));
@@ -120,10 +120,13 @@ async function ensureOnce(p, { force = false } = {}) {
   if (p.platforms && !p.platforms.includes(process.platform)) { st.status = "недоступен для этой ОС"; return; }
   const inst = installed(p.id);
   if (inst && !st.child) await startChild(p);
-  if (inst && !AUTO_UPDATE && !force) return;
+  // версия старше нужной общему пакету — обновляем, даже если автообновление выключено
+  const outdated = !!(inst && p.min && older(inst.version, p.min));
+  if (inst && !AUTO_UPDATE && !force && !outdated) return;
   try {
     st.status = inst ? st.status : "проверяю релиз";
     const rel = await latest(p);
+    st.note = p.min && older(rel.version, p.min) ? `в релизе версия ${rel.version}, для всех инструментов нужна ${p.min} или новее` : null;
     if (inst && inst.version === rel.version && inst.sha === rel.sha) return;
     st.status = inst ? `обновляю до ${rel.version}` : `скачиваю ${rel.version}`;
     log(p.title, st.status);
@@ -167,7 +170,7 @@ function statusText() {
   const rows = PRODUCTS.map((p) => {
     const st = state[p.id];
     const inst = installed(p.id);
-    return `- ${p.title}: ${ENABLED[p.id] ? "" : "выключен в настройках; "}${inst ? `версия ${inst.version}, ` : ""}${st.status}${st.tools.length ? `, инструментов: ${st.tools.length}` : ""}${st.error ? ` — ${st.error}` : ""}`;
+    return `- ${p.title}: ${ENABLED[p.id] ? "" : "выключен в настройках; "}${inst ? `версия ${inst.version}, ` : ""}${st.status}${st.tools.length ? `, инструментов: ${st.tools.length}` : ""}${st.error ? ` — ${st.error}` : ""}${st.note ? ` (${st.note})` : ""}`;
   });
   return `Инструменты kozhevnikovai ${VERSION}\n${rows.join("\n")}\n- Бизнес-навыки: ${SKILLS.length} промптов в меню «+»\nПапка продуктов: ${process.env.KZ_HOME || "~/.kozhevnikovai/products"}`;
 }
